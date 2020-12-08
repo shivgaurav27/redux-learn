@@ -1,8 +1,15 @@
 const BUY_CAKE='BUY_CAKE'
 const BUY_ICECREAM='BUY_ICECREAM'
 const redux = require('redux')
+
 const combinedReducers = redux.combineReducers
 const createStore = redux.createStore
+const reduxLoger = require('redux-logger')
+const logger = reduxLoger.createLogger()
+
+const applyMiddleware = redux.applyMiddleware
+
+
 
 function buyIceCream(){
     return{
@@ -24,7 +31,7 @@ function buyCake(){
 // }
 
 const initialCakeState={
-    numOfCakes:19
+    numOfCakes:10
 }
 const initialIceCreamState={
     numOfIceCreams:20
@@ -67,9 +74,8 @@ const rootReducers = combinedReducers({
 })
 
 
-const store = createStore(rootReducers)
-console.log("Initial ",store.getState())
-const unsubscribe = store.subscribe(()=>console.log("Updated state",store.getState()))
+const store = createStore(rootReducers , applyMiddleware(logger))
+const unsubscribe = store.subscribe(()=>{})
 store.dispatch(buyCake())
 store.dispatch(buyCake())
 store.dispatch(buyIceCream())
